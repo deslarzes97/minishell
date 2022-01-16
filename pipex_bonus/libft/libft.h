@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 16:01:50 by tnanchen          #+#    #+#             */
-/*   Updated: 2021/11/17 16:46:37 by tnanchen         ###   ########.fr       */
+/*   Updated: 2021/12/12 17:25:41 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 #  define BUFFER_SIZE 1
 # endif
 
-# define FORMATS "csdiupxX%"
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
 # define DEFAULT "\033[0m"
@@ -82,11 +81,10 @@ char	*get_next_line(int fd);
 /* --------------------------------------------------------------- */
 // ft_printf
 int		ft_printf(const char *placeholder, ...);
-int		print_int(long int n);
-int		print_unsigned(unsigned int n);
 int		print_char(char c);
 int		print_str(char *s);
-int		print_ptr(void *ptr);
+int		print_int(long int nbr);
 int		print_hexa(unsigned long int nbr, int c_case);
+int		print_ptr(void *ptr);
 
 #endif

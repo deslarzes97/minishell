@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 18:44:23 by tnanchen          #+#    #+#             */
-/*   Updated: 2021/11/17 17:51:49 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/01/16 21:29:03 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*find_path(char *cmd, char **envp)
 		slash = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(slash, cmd);
 		free(slash);
-		if (!access(path, F_OK))
+		if (access(path, F_OK) == 0)
 		{
 			ft_free_arr(paths);
 			return (path);
