@@ -7,7 +7,7 @@ RM			= rm -f
 
 LIBFT_DIR	= libft
 LIBFT_A		= libft.a
-LIB			= -L. -lft
+LIBFT		= -L./libft -lft
 
 all:		${NAME}
 
@@ -15,14 +15,16 @@ all:		${NAME}
 			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 ${NAME}:	${OBJS}
-			$(CC) $(CFLAGS) -o $(NAME) ${OBJS} $(LIB)
-			make clean
+			make --silent -C ${LIBFT_DIR}/
+			$(CC) $(CFLAGS) -o $(NAME) ${OBJS} $(LIBFT)
 
 clean:
 			${RM} ${OBJS}
+			make --silent -C ${LIBFT_DIR} clean
 
 fclean:		clean
 			${RM} ${NAME}
+			make --silent -C ${LIBFT_DIR} fclean
 
 re:			fclean all
 
@@ -30,4 +32,3 @@ run:
 			./${NAME}
 
 .PHONY:		all clean fclean re run
-

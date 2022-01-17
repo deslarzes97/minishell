@@ -6,9 +6,11 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 11:41:11 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/01/17 14:25:50 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/01/17 16:11:59 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// https://github.com/thomasn8/pipex -> version sans commentaire
 
 #include "pipex.h"
 
@@ -16,18 +18,18 @@ static void	read_terminal_lines(char *limiter, int *pipefd)
 {
 	char	*line;
 
-	while (1)									// LOOP INFINI : prog continue à read tant qu'on lui donne des lines via le terminal (= stdin ici)
+	while (1)										// LOOP INFINI : prog continue à read tant qu'on lui donne des lines via le terminal (= stdin ici)
 	{
-		line = get_next_line(STDIN_FILENO);		// dès que GNL read un newline sur STDIN, il renvoie la line dans la loop
+		line = get_next_line(STDIN_FILENO);			// dès que GNL read un newline sur STDIN, il renvoie la line dans la loop
 		if (!line)
 			break ;
-		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)		// si line contient le LIMITER, TERMINE la loop ET le child process. Le pipe contient tous les précédents write
-			exit(EXIT_SUCCESS);
-		write(pipefd[1], line, ft_strlen(line));					// si pas trouvé le LIMITER, write la line dans le pipe
+		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+			exit(EXIT_SUCCESS);						// si line contient le LIMITER, TERMINE la loop ET le child process. Le pipe contient tous les précédents write
+		write(pipefd[1], line, ft_strlen(line));	// si pas trouvé le LIMITER, write la line dans le pipe
 	}
 }
 
-static void	here_doc(char *limiter)
+static void	pipe_terminal(char *limiter)
 {
 	pid_t	child;
 	int		pipefd[2];
@@ -43,15 +45,15 @@ static void	here_doc(char *limiter)
 			exit(UNPREDICTABLE_ERROR);
 		read_terminal_lines(limiter, pipefd);
 	}
-	else
+	else											// le main process utilise le même pipe comme input (en read)
 	{
-		if (dup2(pipefd[0], STDIN_FILENO) == -1|| close(pipefd[1]) == -1)	// le main process utilise le même pipe comme input (en read)
+		if (dup2(pipefd[0], STDIN_FILENO) == -1|| close(pipefd[1]) == -1)
 			exit(UNPREDICTABLE_ERROR);
-		waitpid(child, NULL, 0);											// pour continuer il attend un changement de statut du child process "pid"
+		waitpid(child, NULL, 0);					// pour continuer il attend un changement de statut du child process "pid"
 	}
 }
 
-static void	split_process(char *cmd, char **envp)
+static void	pipe_process(char *cmd, char **envp)
 {
 	pid_t	child;
 	int		pipefd[2];
@@ -59,13 +61,13 @@ static void	split_process(char *cmd, char **envp)
 	if (pipe(pipefd) == -1)							// créer un nouveau pipe
 		exit(UNPREDICTABLE_ERROR);
 	child = fork();									// créer un child process. A partir d'ici on a 2 process avec chacun sa mémoire indépendante (mémoire du main process dupliquée)
-	if (child != 0)
-		printf("I'm the main process (%d) and I created child %d\n", getpid(), child);
+	// if (child != 0)
+	// 	printf("I'm the main process (%d) and I created child %d\n", getpid(), child);
 	if (child == -1)
 		exit(UNPREDICTABLE_ERROR);
 	if (child == 0)									// le child process utilise le pipe pour écrire dedans -> pipefd[1] = write
 	{												// et ferme le côté inutilisé sinon le pipe se mettra en attente de read
-		printf("I'm child process %d\n", getpid());
+		// printf("I'm child process %d\n", getpid());
 		if (dup2(pipefd[1], STDOUT_FILENO) == -1 || close(pipefd[0]))
 			exit(UNPREDICTABLE_ERROR);
 		execute_cmd(cmd, envp);						// le child process est remplacé par un tout nouveau process d'execution (voir man execve)
@@ -93,23 +95,22 @@ int	main(int ac, char **av, char **envp)
 		cmd_count = ac - 4;
 	else
 		cmd_count = ac -3;
-	printf("files: %d | cmds: %d\n", files, cmd_count);
-	printf("file1: %s | file2: %s\n\n", infile.filename, outfile.filename);
 
 													// POUR LA PREMIERE CMD
 	if (files == 1)									// si here_doc :
-		here_doc(av[2]);							// on va lire le terminal en stdin à la place d'avoir un infile
+		pipe_terminal(av[2]);						// on va lire le terminal en stdin à la place d'avoir un infile
 	else
 	{												// sinon :
 		if (dup2(infile.fd, STDIN_FILENO) == -1)	// duplique le infile_fd et le redirige en stdin (fd = 0)
 			exit(UNPREDICTABLE_ERROR);
 	}
-	
+
+
 	i = 0;											// JUSQU'A L'AVANT-DERNIERE CMD (ycomprise)
 	if (files == 1)
 		i++;
 	while (--cmd_count)								// split le process en 2 pour executer chaque nouvelle cmd dans un child p.
-		split_process(av[2 + i++], envp);			// et récup l'output dans le pipe du main p. (stdout est constamment redirigé dans un pipe)
+		pipe_process(av[2 + i++], envp);			// et récup l'output dans le pipe du main p. (stdout est constamment redirigé dans un pipe)
 
 
 	if (dup2(outfile.fd, STDOUT_FILENO) == -1)		// POUR LA DERNIERE CMD

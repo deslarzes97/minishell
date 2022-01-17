@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   files.c                                            :+:      :+:    :+:   */
+/*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 11:43:04 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/01/17 13:52:38 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/01/17 16:01:27 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	get_files_fd(int files, t_file *infile, t_file *outfile)
 		if (infile->fd == -1)
 			exit(UNPREDICTABLE_ERROR);
 	}
-	if (access(outfile->filename, F_OK) == 0)			// test existence (if doesn't exists, no need to test permission cause the prog will create it)
+	if (access(outfile->filename, F_OK) == 0)			// test if exist (if no, no need to test permission cause the prog will create it)
 	{
 		if (access(outfile->filename, W_OK) == -1)		// test writing permission
 		{

@@ -3,7 +3,7 @@ SRCS	= ${wildcard *.c}
 OBJS	= ${SRCS:.c=.o}
 CC		= gcc
 CFLAGS	= -Wall -Wextra -Werror
-NAME	= libft_thomas.a
+NAME	= libft.a
 RM		= rm -f
 
 ############################## rules
