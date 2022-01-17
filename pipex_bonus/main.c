@@ -6,11 +6,50 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 11:41:11 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/01/17 14:12:19 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/01/17 14:25:50 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+static void	read_terminal_lines(char *limiter, int *pipefd)
+{
+	char	*line;
+
+	while (1)									// LOOP INFINI : prog continue à read tant qu'on lui donne des lines via le terminal (= stdin ici)
+	{
+		line = get_next_line(STDIN_FILENO);		// dès que GNL read un newline sur STDIN, il renvoie la line dans la loop
+		if (!line)
+			break ;
+		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)		// si line contient le LIMITER, TERMINE la loop ET le child process. Le pipe contient tous les précédents write
+			exit(EXIT_SUCCESS);
+		write(pipefd[1], line, ft_strlen(line));					// si pas trouvé le LIMITER, write la line dans le pipe
+	}
+}
+
+static void	here_doc(char *limiter)
+{
+	pid_t	child;
+	int		pipefd[2];
+
+	if (pipe(pipefd) == -1)							// créer un nouveau pipe
+		exit(UNPREDICTABLE_ERROR);
+	child = fork();									// créer un child process
+	if (child == -1)
+		exit(UNPREDICTABLE_ERROR);
+	if (child == 0)
+	{
+		if (close(pipefd[0]) == -1)					// ferme le côté read du pipe pour utiliser que le côté write
+			exit(UNPREDICTABLE_ERROR);
+		read_terminal_lines(limiter, pipefd);
+	}
+	else
+	{
+		if (dup2(pipefd[0], STDIN_FILENO) == -1|| close(pipefd[1]) == -1)	// le main process utilise le même pipe comme input (en read)
+			exit(UNPREDICTABLE_ERROR);
+		waitpid(child, NULL, 0);											// pour continuer il attend un changement de statut du child process "pid"
+	}
+}
 
 static void	split_process(char *cmd, char **envp)
 {
@@ -36,39 +75,6 @@ static void	split_process(char *cmd, char **envp)
 		if (dup2(pipefd[0], STDIN_FILENO) == -1 || close(pipefd[1]))
 			exit(UNPREDICTABLE_ERROR);
 		waitpid(child, NULL, 0);					// pour continuer il attend un changement de statut du child process "pid"
-	}
-}
-
-static void	here_doc(char *limiter)
-{
-	pid_t	child;
-	int		pipefd[2];
-	char	*line;
-
-	if (pipe(pipefd) == -1)							// créer un nouveau pipe
-		exit(UNPREDICTABLE_ERROR);
-	child = fork();									// créer un child process
-	if (child == -1)
-		exit(UNPREDICTABLE_ERROR);
-	if (child == 0)
-	{
-		if (close(pipefd[0]) == -1)					// ferme le côté read du pipe pour utiliser que le côté write
-			exit(UNPREDICTABLE_ERROR);
-		while (1)									// LOOP INFINI : prog continue à read tant qu'on lui donne des lines via le terminal (= stdin ici)
-		{
-			line = get_next_line(STDIN_FILENO);		// dès que GNL read un newline sur STDIN, il renvoie la line dans la loop
-			if (!line)
-				break ;
-			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)		// si line contient le LIMITER, STOP la loop et le pipe contient tous les précédents write
-				exit(EXIT_SUCCESS);
-			write(pipefd[1], line, ft_strlen(line));					// si pas trouvé le LIMITER, write la line dans le pipe
-		}
-	}
-	else
-	{
-		if (dup2(pipefd[0], STDIN_FILENO) == -1|| close(pipefd[1]) == -1)	// le main process utilise le même pipe comme input (en read)
-			exit(UNPREDICTABLE_ERROR);
-		waitpid(child, NULL, 0);											// pour continuer il attend un changement de statut du child process "pid"
 	}
 }
 
