@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 11:41:11 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/01/17 16:11:59 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/01/17 23:14:26 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,31 @@
 
 #include "pipex.h"
 
+// read input from terminal STDIN 
+// until a line containing ONLY the delimiter is seen 
+// (source: BASH man)
 static void	read_terminal_lines(char *limiter, int *pipefd)
 {
 	char	*line;
+	char	*limiter_nl;
+	int		len;
 
+	limiter_nl = ft_strjoin(limiter, "\n");
+	len = ft_strlen(limiter) + 1;
 	while (1)										// LOOP INFINI : prog continue à read tant qu'on lui donne des lines via le terminal (= stdin ici)
 	{
 		line = get_next_line(STDIN_FILENO);			// dès que GNL read un newline sur STDIN, il renvoie la line dans la loop
 		if (!line)
 			break ;
-		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		if (ft_strncmp(line, limiter_nl, len) == 0
+			|| ft_strncmp(line, limiter, len) == 0)
+		{
+			free(limiter_nl);
+			free(line);
 			exit(EXIT_SUCCESS);						// si line contient le LIMITER, TERMINE la loop ET le child process. Le pipe contient tous les précédents write
+		}
 		write(pipefd[1], line, ft_strlen(line));	// si pas trouvé le LIMITER, write la line dans le pipe
+		free(line);
 	}
 }
 

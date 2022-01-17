@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 17:17:54 by tnanchen          #+#    #+#             */
-/*   Updated: 2021/12/12 22:27:27 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/01/17 23:10:11 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,12 @@ int	print_ptr(void *ptr)
 {
 	size_t	nbr;
 	int		count;
-	char	*set;
 
 	if (!ptr)
 		return (print_str("0x0"));
 	nbr = (size_t)ptr;
 	count = 0;
 	count += print_str("0x");
-	set = "0123456789abcdef";
 	count += print_hexa(nbr, 'x');
 	return (count);
 }
