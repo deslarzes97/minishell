@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 17:47:54 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/01/16 21:04:22 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/01/17 13:45:48 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,16 @@
 # define PERMISSION_ERROR 126
 # define EXEC_ERROR 127
 
-int		get_files_fd(char *infile, char *outfile, int *infile_fd, int *outfile_fd);
-char	*find_path(char *cmd, char **envp);
+# define HERE_DOC 1
+
+typedef struct s_file
+{
+	char	*filename;
+	int		fd;
+}	t_file;
+
+int		check_here_doc_param(int ac, char **av, t_file *infile, t_file *outfile);
+void	get_files_fd(int files_mode, t_file *infile, t_file *outfile);
+void	execute_cmd(char *cmd, char **envp);
 
 #endif
