@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 16:01:50 by tnanchen          #+#    #+#             */
-/*   Updated: 2021/12/12 17:25:41 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/01/17 23:23:52 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	ft_putnbr_fd(int n, int fd);
 /* --------------------------------------------------------------- */
 // Personnal functions
 char	*ft_itoa_base16(unsigned long int nbr);
-void	*ft_malloc_ec(size_t size);
 void	ft_free_arr(char **arr);
 
 /* --------------------------------------------------------------- */
