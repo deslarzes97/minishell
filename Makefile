@@ -1,4 +1,4 @@
-SRCS		= ${wildcard *.c}
+SRCS		= srcs/main.c
 OBJS		= ${SRCS:.c=.o}
 CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror
