@@ -1,10 +1,11 @@
 #include "../includes/minishell.h"
 
-void	print_prompt(void)
+int	print_prompt(void)
 {
 	ft_putstr_fd(CYA,1);
-	ft_putstr_fd("prompt$ ",1);
+	ft_putstr_fd("bullshit prompt ≠ ",1);
 	ft_putstr_fd(WHI,1);
+	return (0);
 }
 
 int	main(int ac, char **av, char **env)
@@ -23,8 +24,8 @@ int	main(int ac, char **av, char **env)
 			// fork
 			// execute cmd
 			// wait
-
-
+			// update history
+			// update last_exit_status
 
 			ft_printf("%s", cmd);
 		}
