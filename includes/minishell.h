@@ -3,6 +3,8 @@
 
 # include "../libft/libft.h"
 # include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
 
 /* terminal colors */
 # define RED "\033[0;31m"

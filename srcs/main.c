@@ -3,26 +3,28 @@
 int	print_prompt(void)
 {
 	ft_putstr_fd(CYA,1);
-	ft_putstr_fd("bullshit prompt ≠ ",1);
+	ft_putstr_fd("a different prompt ≠ ",1);
 	ft_putstr_fd(WHI,1);
 	return (0);
 }
 
 int	main(int ac, char **av, char **env)
 {
-	(void) ac;
-	(void) av;
-	(void) env;
-	char *cmd;
-
+	(void)	ac;
+	(void)	av;
+	(void)	env;
+	char	*cmd;
+	
 	while (1)
 	{
 		cmd = NULL;
 		print_prompt();
+
+		// utiliser signal ou sigaction pour détecter ctrl-d ctrl-c
 		cmd = get_next_line(STDIN_FILENO);
 		if (cmd)	// le call à GNL sur STDIN_FILENO provoque une pause dans la loop infinie
 		{
-			// fork
+			// fork a subshell / pipex
 			// execute cmd
 			// wait
 			// update history
