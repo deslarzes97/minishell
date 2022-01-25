@@ -1,7 +1,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "../libft/libft.h"
+# include "../libft/libft.h"
+# include <stdlib.h>
 
 /* terminal colors */
 # define RED "\033[0;31m"
