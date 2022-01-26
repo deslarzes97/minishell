@@ -1,13 +1,5 @@
 #include "../includes/minishell.h"
 
-int	print_prompt(void)
-{
-	ft_putstr_fd(CYA,1);
-	ft_putstr_fd("a different prompt ≠ ",1);
-	ft_putstr_fd(WHI,1);
-	return (0);
-}
-
 int	main(int ac, char **av, char **env)
 {
 	(void)	ac;
@@ -29,7 +21,13 @@ int	main(int ac, char **av, char **env)
 			// wait
 			// update history
 			// update last_exit_status
-			ft_printf("%s", cmd);	// A ENLEVER APRES
+			
+			// POUR TESTER (A ENLEVER APRES) :
+			// ft_printf("%s", cmd);
+			if (ft_strncmp(cmd, "pwd ", 4) == 0 || ft_strncmp(cmd, "pwd\n", 4) == 0)
+				pwd();
+			/////////////////////////
+
 			free(cmd);
 		}
 	}

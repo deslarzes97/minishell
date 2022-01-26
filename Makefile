@@ -1,4 +1,7 @@
-SRCS		= srcs/main.c
+SRCS		= 	srcs/main.c 		\
+				srcs/prompt.c		\
+				srcs/builtins_1.c	\
+
 OBJS		= ${SRCS:.c=.o}
 CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror
