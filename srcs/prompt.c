@@ -18,22 +18,22 @@ static char *print_relative_dir()
 	int		len;
 	char 	*custom;
 
-	absolute_dir = getcwd(NULL, 0);
+	absolute_dir = getcwd(NULL, 0);					// current dir (absolute format)
 	if (!absolute_dir)
 		exit(BUILTIN_FAILURE);
-	home = getenv("HOME");
+	home = getenv("HOME");							// home dir (absolute format)
 	if (!home)
 		exit(BUILTIN_FAILURE);
 	len = ft_strlen(home);
-	custom = ft_strnstr(absolute_dir, home, len);
+	custom = ft_strnstr(absolute_dir, home, len);	// si home est dans current dir
 	if (custom)
 	{
-		write(1, "~", 1);
-		if (absolute_dir != home)
-			ft_putstr_fd(&custom[len], 1);
+		write(1, "~", 1);							// on remplace home par ~
+		if (absolute_dir != home)					// et si on est dans un sous-dossier de home
+			ft_putstr_fd(&custom[len], 1);			// on rajoute le chemin vers ce sous-dossier
 	}
-	else
-		ft_putstr_fd(absolute_dir, 1);
+	else											// sinon on est à la racine de home
+		ft_putstr_fd(absolute_dir, 1);				// alors on print le current dir (absolute format)
 	return (absolute_dir);
 }
 
