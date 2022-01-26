@@ -1,5 +1,9 @@
 #include "../includes/minishell.h"
 
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
 int	print_prompt(void)
 {
 	ft_putstr_fd(CYA,1);
