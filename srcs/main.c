@@ -16,11 +16,15 @@ int	main(int ac, char **av, char **env)
 		cmd = get_next_line(STDIN_FILENO);
 		if (cmd)	// le call à GNL sur STDIN_FILENO provoque une pause (en attente de return) dans la loop infinie
 		{
-			// fork a subshell / pipex
-			// execute cmd
-			// wait
-			// update history
-			// update last_exit_status
+			// fork (voir pipex)
+			// (est-ce qu'on execute les cmd builtins sans fork ? (cad dans le main process)
+
+			// child_process
+				// -> execute cmd
+			// parent_process
+				// -> wait exit status
+				// (update history)
+				// (update last_exit_status)
 			
 			// POUR TESTER (A ENLEVER APRES) :
 			// ft_printf("%s", cmd);
