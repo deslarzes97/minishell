@@ -26,7 +26,7 @@ int	main(int ac, char **av, char **env)
 				// parent_process
 					// -> wait exit status
 					// (update history)
-					// (update last_exit_status)
+					// (if | update $?)
 			
 
 

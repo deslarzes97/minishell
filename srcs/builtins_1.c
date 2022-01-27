@@ -1,5 +1,8 @@
 /* Thomas's builtins */
 
+// pwd : ok
+// cd : ok
+
 // remarques:
 // pour l'instant j'envoie toute la cmd dans ces builtins.
 // a voir plus tard si le parther fera le job aussi pour les builtins  ...
@@ -47,36 +50,15 @@ int cd(char *cmd)											// ici on sait que cmd = cd'blank' ou cd'\n'
 		chdir(dir);
 		return (0);
 	}
-
-	// some tests :
-	// chdir("/Users/thomas/Downloads");
-	// chdir("/Users/thomas");
-	// chdir("../amyplant");
-
-	// enregistre 1er arg dans dir
-	// check si il y a encore d'autre args
-	// si oui -> erreur
-	// si non 
-		// check si dir est un path absolute ou relative grace au / initial
-		// gérer le(s) '..' dans le path ?
-		// check les accès a dir ?
-		// chdir(dir)
-	int i = 0;
 	cmd_args = ft_split_blank(cmd);
-	if (cmd_args[1] != NULL)
+	if (cmd_args[1] != NULL)								// check si trop d'argument
 	{
 		ft_putstr_fd("cd: too many arguments\n", 2);
 		ft_free_arr(cmd_args);
 		exit(BUILTIN_FAILURE);
 	}
-	if (cmd_args[0][0] == '/')	// path = absolute
-	{
-
-	}
-	else						// path = relative
-	{
-
-	}
+	dir = cmd_args[0];
+	chdir(dir);
 	ft_free_arr(cmd_args);
 	return (0);
 }

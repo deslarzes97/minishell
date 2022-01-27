@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 11:41:11 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/01/17 23:17:46 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/01/28 00:15:34 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,3 @@ int	main(int ac, char **av, char **envp)
 	execute_cmd(av[ac - 2], envp);					// execute la derniere cmd avec outfile_fd en stdout
 	return (0);
 }
-
-// man de execve :
-// The argument envp is also a pointer to a null-terminated array of character pointers to null-terminated strings.
-// A pointer to this array is normally stored in the global variable environ.
-
-// envp reçoit automatiquement la liste des variables insérées manuellement + celle des variables d'environnement ?
