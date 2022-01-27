@@ -30,10 +30,10 @@ int pwd(char *cmd)											// ici on sait que cmd = pwd'blank' ou pwd'\n'
 	return (0);
 }
 
-int cd(char *cmd)
+int cd(char *cmd)											// ici on sait que cmd = cd'blank' ou cd'\n'
 {
 	char *dir;
-	char **split;
+	char **cmd_args;
 
 	while (*cmd != ' ' && *cmd != '\t' && *cmd != '\n')		// itère jusqu'au 1er blank ou au \n
 		cmd++;
@@ -47,24 +47,35 @@ int cd(char *cmd)
 		chdir(dir);
 		return (0);
 	}
+
+	// some tests :
+	// chdir("/Users/thomas/Downloads");
+	// chdir("/Users/thomas");
+	// chdir("../amyplant");
+
 	// enregistre 1er arg dans dir
 	// check si il y a encore d'autre args
 	// si oui -> erreur
 	// si non 
 		// check si dir est un path absolute ou relative grace au / initial
-		// check les accès a dir
+		// gérer le(s) '..' dans le path ?
+		// check les accès a dir ?
 		// chdir(dir)
-	
-	split = ft_split_blank(cmd);
-	int i = 0;
-	while (split[i])
+	cmd_args = ft_split_blank(cmd);
+	if (cmd_args[1] != NULL)
 	{
-		printf("split[%d]: %s\n", i, split[i]);
-		i++;
+		ft_putstr_fd("cd: too many arguments\n", 2);
+		ft_free_arr(cmd_args);
+		exit(BUILTIN_FAILURE);
 	}
+	if (cmd_args[0][0] == '/')	// path = absolute
+	{
+
+	}
+	else						// path = relative
+	{
+
+	}
+	ft_free_arr(cmd_args);
 	return (0);
 }
-
-// ça peut être utile d'avoir un ft_split_blank
-// qui split avec 2 delimiters et non 1 :
-// space, tab
