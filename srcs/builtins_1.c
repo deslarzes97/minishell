@@ -40,6 +40,7 @@ int cd(char *cmd)
 	}
 
 	// enregistre 1er arg dans dir
+		// check si arg est un path absolute ou relative grace au / initial
 	// check si il y a encore d'autre args
 	// si oui -> erreur
 	// si non -> chdir(dir)
