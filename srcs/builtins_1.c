@@ -24,6 +24,25 @@ int pwd(char *cmd)											// ici on sait que cmd = pwd'blank'
 
 int cd(char *cmd)
 {
-	(void) cmd;
+	char *dir;
+
+	while (*cmd != ' ' && *cmd != '\t' && *cmd != '\n')		// itère jusqu'au 1er blank ou au \n
+		cmd++;
+	while (*cmd == ' ' || *cmd == '\t')						// itère tous les blanks (space et tab)
+		cmd++;
+	if (*cmd == '\n')										// si pas d'argument -> use $HOME 
+	{
+		dir = getenv("HOME");
+		if (!dir)
+			exit(BUILTIN_FAILURE);
+		chdir(dir);
+		return (0);
+	}
+
+	// enregistre 1er arg dans dir
+	// check si il y a encore d'autre args
+	// si oui -> erreur
+	// si non -> chdir(dir)
+
 	return (0);
 }

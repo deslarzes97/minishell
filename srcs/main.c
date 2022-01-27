@@ -15,15 +15,18 @@ int	main(int ac, char **av, char **env)
 		cmd = get_next_line(STDIN_FILENO);
 		if (cmd)	// le call à GNL sur STDIN_FILENO provoque une pause (en attente de return) dans la loop infinie
 		{
-			// fork (voir pipex), sauf si cmd = builtin
-			// est-ce qu'on execute les builtins sans fork ? (cad dans le main process)
+			// is_builtin(cmd) ?
 
-			// child_process
-				// -> execute cmd
-			// parent_process
-				// -> wait exit status
-				// (update history)
-				// (update last_exit_status)
+				// si OUI: traiter la cmd spécifiquement comme un builtin
+				// est-ce qu'on execute les builtins sans fork ? (cad dans le main process)
+				
+				// si NON: fork (voir pipex)
+				// child_process
+					// -> execute cmd
+				// parent_process
+					// -> wait exit status
+					// (update history)
+					// (update last_exit_status)
 			
 
 
