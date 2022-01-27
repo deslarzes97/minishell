@@ -1,10 +1,10 @@
 /* Thomas's builtins */
 
-// remarques :
+// remarques:
 // pour l'instant j'envoie toute la cmd dans ces builtins.
-// a voir plus tard si le parther fera le job aussi pour les builtins
-// et du coup, après avoir checké si (cmd == builtin) ?
-// ces builtin recevront les meme types de données que les commandes simples
+// a voir plus tard si le parther fera le job aussi pour les builtins  ...
+// est-ce qu'on appelle le parther avant is_builtin ou l'inverse ?
+// si d'abord parther, les builtins recevront les meme types de données que les commandes simples
 
 #include "../includes/minishell.h"
 
@@ -33,6 +33,7 @@ int pwd(char *cmd)											// ici on sait que cmd = pwd'blank' ou pwd'\n'
 int cd(char *cmd)
 {
 	char *dir;
+	char **split;
 
 	while (*cmd != ' ' && *cmd != '\t' && *cmd != '\n')		// itère jusqu'au 1er blank ou au \n
 		cmd++;
@@ -53,5 +54,17 @@ int cd(char *cmd)
 		// check si dir est un path absolute ou relative grace au / initial
 		// check les accès a dir
 		// chdir(dir)
+	
+	split = ft_split_blank(cmd);
+	int i = 0;
+	while (split[i])
+	{
+		printf("split[%d]: %s\n", i, split[i]);
+		i++;
+	}
 	return (0);
 }
+
+// ça peut être utile d'avoir un ft_split_blank
+// qui split avec 2 delimiters et non 1 :
+// space, tab

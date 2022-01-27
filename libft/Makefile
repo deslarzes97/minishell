@@ -1,4 +1,4 @@
-SRCS	= ${wildcard *.c}
+SRCS	= ${wildcard *.c}	#AJOUTER TOUS LES .C au lieu d'utiliser wildcard
 
 OBJS	= ${SRCS:.c=.o}
 CC		= gcc
