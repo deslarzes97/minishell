@@ -38,7 +38,6 @@ int cd(char *cmd)
 		chdir(dir);
 		return (0);
 	}
-
 	// enregistre 1er arg dans dir
 		// check si arg est un path absolute ou relative grace au / initial
 	// check si il y a encore d'autre args

@@ -31,10 +31,9 @@ int	main(int ac, char **av, char **env)
 
 
 			/* POUR TESTER LES BUILTINS (A ENLEVER APRES) */
-			// ft_printf("%s", cmd);
 			if (ft_strncmp(cmd, "pwd ", 4) == 0 || ft_strncmp(cmd, "pwd\t", 4) == 0 || ft_strncmp(cmd, "pwd\n", 4) == 0)
 				pwd(cmd);
-			if (ft_strncmp(cmd, "cd ", 3) == 0 || ft_strncmp(cmd, "cd\n", 3) == 0)
+			if (ft_strncmp(cmd, "cd ", 3) == 0 || ft_strncmp(cmd, "cd\t", 3) == 0 || ft_strncmp(cmd, "cd\n", 3) == 0)
 				cd(cmd);
 			/* ***************************** */
 
