@@ -35,6 +35,7 @@
 int	print_prompt(void);
 
 /* BUILTINS.C*/
-int pwd(void);
+int pwd(char *cmd);
+int cd(char *cmd);
 
 #endif

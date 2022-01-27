@@ -11,13 +11,12 @@ int	main(int ac, char **av, char **env)
 	{
 		cmd = NULL;
 		print_prompt();
-
-		// utiliser signal ou sigaction pour détecter ctrl-d ctrl-c
+		// utiliser signal ou sigaction pour détecter ctrl-d ctrl-c (dans gnl ou dans un child process ?)
 		cmd = get_next_line(STDIN_FILENO);
 		if (cmd)	// le call à GNL sur STDIN_FILENO provoque une pause (en attente de return) dans la loop infinie
 		{
-			// fork (voir pipex)
-			// (est-ce qu'on execute les cmd builtins sans fork ? (cad dans le main process)
+			// fork (voir pipex), sauf si cmd = builtin
+			// est-ce qu'on execute les builtins sans fork ? (cad dans le main process)
 
 			// child_process
 				// -> execute cmd
@@ -26,11 +25,16 @@ int	main(int ac, char **av, char **env)
 				// (update history)
 				// (update last_exit_status)
 			
-			// POUR TESTER (A ENLEVER APRES) :
+
+
+			/* POUR TESTER LES BUILTINS (A ENLEVER APRES) */
 			// ft_printf("%s", cmd);
-			if (ft_strncmp(cmd, "pwd ", 4) == 0 || ft_strncmp(cmd, "pwd\n", 4) == 0)
-				pwd();
-			/////////////////////////
+			if (ft_strncmp(cmd, "pwd ", 4) == 0 || ft_strncmp(cmd, "pwd\t", 4) == 0 || ft_strncmp(cmd, "pwd\n", 4) == 0)
+				pwd(cmd);
+			if (ft_strncmp(cmd, "cd ", 3) == 0 || ft_strncmp(cmd, "cd\n", 3) == 0)
+				cd(cmd);
+			/* ***************************** */
+
 
 			free(cmd);
 		}

@@ -18,10 +18,10 @@ static char *print_relative_dir()
 	int		len;
 	char 	*custom;
 
-	absolute_dir = getcwd(NULL, 0);					// current dir (absolute format)
+	absolute_dir = getcwd(NULL, 0);					// get current dir (absolute format)
 	if (!absolute_dir)
 		exit(BUILTIN_FAILURE);
-	home = getenv("HOME");							// home dir (absolute format)
+	home = getenv("HOME");							// get home dir (absolute format)
 	if (!home)
 		exit(BUILTIN_FAILURE);
 	len = ft_strlen(home);
