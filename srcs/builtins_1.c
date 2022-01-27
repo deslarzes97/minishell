@@ -1,12 +1,12 @@
 #include "../includes/minishell.h"
 
-int pwd(char *cmd)											// ici on sait que cmd = pwd'blank'
+int pwd(char *cmd)											// ici on sait que cmd = pwd'blank' ou pwd'\n'
 {
 	char *dir;
 
 	while (*cmd != ' ' && *cmd != '\t' && *cmd != '\n')		// itère jusqu'au 1er blank ou au \n
 		cmd++;
-	while (*cmd == ' ' || *cmd == '\t')						// itère tous les blanks (space et tab)
+	while (*cmd == ' ' || *cmd == '\t')						// itère tous les blanks (=space/tab)
 		cmd++;
 	if (*cmd != '\n')										// si pas un newline -> trop d'arguments
 	{

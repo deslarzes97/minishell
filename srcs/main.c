@@ -15,7 +15,7 @@ int	main(int ac, char **av, char **env)
 		cmd = get_next_line(STDIN_FILENO);
 		if (cmd)	// le call à GNL sur STDIN_FILENO provoque une pause (en attente de return) dans la loop infinie
 		{
-			// is_builtin(cmd) ?
+			// parther() + is_builtin(cmd)?
 
 				// si OUI: traiter la cmd spécifiquement comme un builtin
 				// est-ce qu'on execute les builtins sans fork ? (cad dans le main process)
