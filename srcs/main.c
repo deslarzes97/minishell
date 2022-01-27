@@ -7,11 +7,11 @@ int	main(int ac, char **av, char **env)
 	(void)	env;
 	char	*cmd;
 	
+	// signal (ou sigaction) pour détecter ctrl+c / ctrl+d (ou détecter dans gnl ?)
 	while (1)
 	{
 		cmd = NULL;
 		print_prompt();
-		// utiliser signal ou sigaction pour détecter ctrl-d ctrl-c (dans gnl ou dans un child process ?)
 		cmd = get_next_line(STDIN_FILENO);
 		if (cmd)	// le call à GNL sur STDIN_FILENO provoque une pause (en attente de return) dans la loop infinie
 		{

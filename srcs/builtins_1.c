@@ -61,6 +61,7 @@ int cd(char *cmd)											// ici on sait que cmd = cd'blank' ou cd'\n'
 		// gérer le(s) '..' dans le path ?
 		// check les accès a dir ?
 		// chdir(dir)
+	int i = 0;
 	cmd_args = ft_split_blank(cmd);
 	if (cmd_args[1] != NULL)
 	{
