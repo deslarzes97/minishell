@@ -1,3 +1,11 @@
+/* Thomas's builtins */
+
+// remarques :
+// pour l'instant j'envoie toute la cmd dans ces builtins.
+// a voir plus tard si le parther fera le job aussi pour les builtins
+// et du coup, après avoir checké si (cmd == builtin) ?
+// ces builtin recevront les meme types de données que les commandes simples
+
 #include "../includes/minishell.h"
 
 int pwd(char *cmd)											// ici on sait que cmd = pwd'blank' ou pwd'\n'

@@ -1,6 +1,7 @@
 SRCS		= 	srcs/main.c 		\
 				srcs/prompt.c		\
 				srcs/builtins_1.c	\
+				srcs/builtins_2.c	\
 
 OBJS		= ${SRCS:.c=.o}
 CC			= gcc
