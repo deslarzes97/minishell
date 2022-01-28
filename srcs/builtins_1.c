@@ -11,40 +11,6 @@
 
 #include "../includes/minishell.h"
 
-int ls(char *cmd, char **env)
-{
-	pid_t	child;
-	int		pipefd[2];
-
-	if (pipe(pipefd) == -1)
-	{
-		printf("ERROR in pipe creation\n");
-		exit(1);
-	}
-	// printf("fd[0]: %d\n", pipefd[0]);
-	// printf("fd[1]: %d\n", pipefd[1]);
-	child = fork();
-	if (child != 0)
-		printf("I'm the main process (%d) and I created child %d\n", getpid(), child);
-
-	if (child == 0)
-	{
-		printf("I'm child process %d\n", getpid());
-		printf("new fd: %d\n", dup2(pipefd[1], STDOUT_FILENO));	// PROBLEME ICI
-		close(pipefd[0]);
-		printf("TEST\n");
-		execute_cmd(cmd, env);
-	}
-	else
-	{
-		// printf("new fd: %d\n", dup2(pipefd[0], STDIN_FILENO)); // PROBLEME ICI
-		dup2(pipefd[0], STDIN_FILENO);
-		close(pipefd[1]);
-		printf("process terminé: %d\n", waitpid(child, NULL, 0));
-	}
-	return (0);
-}
-
 int pwd(char *cmd)											// ici on sait que cmd = pwd'blank' ou pwd'\n'
 {
 	char *dir;

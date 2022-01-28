@@ -42,14 +42,24 @@ void	execute_cmd(char *cmd, char **env)
 	char	**cmd_arg_list;
 	char	*path;
 
-	printf("TEST\n");
 	cmd_arg_list = ft_split_blank(cmd);
 	path = find_path(cmd_arg_list[0]);
-	printf("%s\n", path);
 	if (path == NULL || execve(path, cmd_arg_list, env) == -1)
 	{
 		ft_free_arr(cmd_arg_list);
 		free(path);
 		execution_error(cmd);
 	}
+}
+
+int ls(char *cmd, char **env)
+{
+	pid_t	child;
+
+	child = fork();
+	if (child == 0)
+		execute_cmd(cmd, env);
+	else
+		waitpid(child, NULL, 0);
+	return (0);
 }
