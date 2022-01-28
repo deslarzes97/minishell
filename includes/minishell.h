@@ -34,11 +34,13 @@
 /* ******************* */
 
 /* PROMPT.C*/
-int	print_prompt(void);
+int		print_prompt(void);
 
 /* BUILTINS.C*/
-int	pwd(char *cmd);
-int	cd(char *cmd);
-int	echo(char *cmd);
+int		pwd(char *cmd);
+int		cd(char *cmd);
+int		echo(char *cmd);
+int		ls(char *cmd, char **env);				// provisoire
+void	execute_cmd(char *cmd, char **env);
 
 #endif
