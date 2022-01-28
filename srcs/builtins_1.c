@@ -35,13 +35,12 @@ int pwd(char *cmd)											// ici on sait que cmd = pwd'blank' ou pwd'\n'
 // If directory begins with a slash, CDPATH is not used.
 // exemple : https://www.oreilly.com/library/view/bash-cookbook/0596526784/ch16s05.html
 
-void	chdir_error(void)
+void	chdir_error(char *dir)
 {
 	ft_putstr_fd("cd: ", 2);
 	ft_putstr_fd(strerror(errno), 2);
 	write(2, ": ", 2);
-	ft_putstr_fd(dir, 2);
-	write(2, "\n", 2);
+	ft_putendl_fd(dir, 2);
 }
 
 int	mini_pwd(void)
@@ -51,8 +50,7 @@ int	mini_pwd(void)
 	dir = getcwd(NULL, 0);
 	if (!dir)
 		exit(BUILTIN_FAILURE);
-	ft_putstr_fd(dir, 1);
-	write(1, "\n", 1);
+	ft_putendl_fd(dir, 1);
 	free(dir);
 	return (1);
 }
@@ -61,6 +59,7 @@ static int	cdpath_search(char *dir)
 {
 	char	**cdpaths;
 	int		i;
+	int		len;
 	char	*cdpath_dir;
 	int		permission;
 
@@ -75,9 +74,16 @@ static int	cdpath_search(char *dir)
 	// si cdpath[i]+dir existe ET PAS ACCES
 		// si chdir dir OK -> chdir dir + print abs_path
 		// sinon print "cd: permission denied: folder"
+	i = 0;
 	while (cdpaths[i])
 	{
-		cdpath_dir = ft_strjoin(cdpaths[i], dir);
+		len = ft_strlen(cdpaths[i]);
+		if (cdpaths[i][len - 1] != '/')					// check trailing '/'
+		{
+			cdpath_dir = ft_strjoin(cdpaths[i], "/");
+		}
+		cdpath_dir = ft_strjoin(cdpaths[i], dir);	// rajouter encore un / entre cdpath et dir
+		printf("dir joined: %s\n", cdpaths[i]);
 		if (chdir(cdpath_dir) == 0)
 			return (mini_pwd());
 		if (access(cdpath_dir, F_OK) == 0 && access(cdpath_dir, X_OK) == -1)
@@ -139,7 +145,7 @@ int cd(char *cmd)
 	// sinon arg[0] == / OU cdpath == 0 et donc pas de cdpath
 	if (chdir(dir) == -1)
 	{
-		chdir_error();
+		chdir_error(dir);
 		free (dir);
 		exit(BUILTIN_FAILURE);
 	}
