@@ -1,13 +1,8 @@
 /* Thomas's builtins */
 
-// pwd : ok
-// cd : ok
-
 // remarques:
 // pour l'instant j'envoie toute la cmd dans ces builtins.
-// a voir plus tard si le parther fera le job aussi pour les builtins  ...
-// est-ce qu'on appelle le parther avant is_builtin ou l'inverse ?
-// si d'abord parther, les builtins recevront les meme types de données que les commandes simples
+// a voir plus tard si le parther fera le job aussi pour les builtins  ... je pense que oui
 
 #include "../includes/minishell.h"
 

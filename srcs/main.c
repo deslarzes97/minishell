@@ -32,7 +32,7 @@ int	main(int ac, char **av, char **env)
 				pwd(cmd);
 			if (ft_strncmp(cmd, "cd ", 3) == 0 || ft_strncmp(cmd, "cd\t", 3) == 0 || ft_strncmp(cmd, "cd\n", 3) == 0)
 				cd(cmd);
-			if (ft_strncmp(cmd, "ls ", 3) == 0 || ft_strncmp(cmd, "ls\t", 3) == 0 || ft_strncmp(cmd, "ls\n", 3) == 0)
+			if (ft_strncmp(cmd, "ls ", 3) == 0 || ft_strncmp(cmd, "ls\t", 3) == 0 || ft_strncmp(cmd, "ls\n", 3) == 0)			// PAS UN BUILTIN MAIS UTILE POUR UTILISER PROVISOIREMENT cd
 				ls(cmd, env);
 			/* ***************************** */
 
