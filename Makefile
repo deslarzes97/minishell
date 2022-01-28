@@ -2,6 +2,7 @@ SRCS		= 	srcs/main.c 		\
 				srcs/prompt.c		\
 				srcs/builtins_1.c	\
 				srcs/builtins_2.c	\
+				srcs/echo.c			\
 
 OBJS		= ${SRCS:.c=.o}
 CC			= gcc
@@ -36,3 +37,8 @@ run:
 			./${NAME}
 
 .PHONY:		all clean fclean re run
+
+#-------HELP TO DEBUG---------#
+
+#-g -fsanitize=address à ajouter lors de la compliation pour le débegueur vscode.
+#leaks -atExit -- commande (mac) qui permet de checker si il y'a des leaks.
