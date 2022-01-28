@@ -36,7 +36,7 @@ int	main(int ac, char **av, char **env)
 				ls(cmd, env);
 			/* ***************************** */
 
-			free(cmd);
+			free(cmd); 
 		}
 	}
 }
