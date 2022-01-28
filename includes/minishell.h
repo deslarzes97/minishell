@@ -27,7 +27,7 @@
 # define WHI "\033[0m"
 
 /* error status code */
-# define BUILTIN_FAILURE 1
+# define BUILTIN_FAILURE 2
 
 /* ******************* */
 /*        FILES        */
