@@ -33,7 +33,11 @@ int pwd(char *cmd)											// ici on sait que cmd = pwd'blank' ou pwd'\n'
 	return (0);
 }
 
-int cd(char *cmd)											// ici on sait que cmd = cd'blank' ou cd'\n'
+
+// A rajouter:
+// If the shell variable CDPATH exists, it is used as a search path: each directory name in CDPATH is searched for directory, 
+// with alternative directory names in CDPATH separated by a colon (‘:’). If directory begins with a slash, CDPATH is not used.
+int cd(char *cmd)
 {
 	char *dir;
 	char **cmd_args;
@@ -51,14 +55,26 @@ int cd(char *cmd)											// ici on sait que cmd = cd'blank' ou cd'\n'
 		return (0);
 	}
 	cmd_args = ft_split_blank(cmd);
-	if (cmd_args[1] != NULL)								// check si trop d'argument
+	if (cmd_args[1] != NULL)								// check si trop d'argument FACULTATIF ? ("Any additional arguments following directory are ignored")
 	{
 		ft_putstr_fd("cd: too many arguments\n", 2);
 		ft_free_arr(cmd_args);
 		exit(BUILTIN_FAILURE);
 	}
 	dir = cmd_args[0];
-	chdir(dir);
+	
+	// if (dir[0] != '/')
+	//	cherche d'abord dans les directory enregistrés dans CDPATH
+	
+	if (chdir(dir) == -1)
+	{
+		ft_putstr_fd("cd: ", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		write(2, ": ", 2);
+		ft_putstr_fd(dir, 2);
+		write(2, "\n", 2);
+		exit(BUILTIN_FAILURE);
+	}
 	ft_free_arr(cmd_args);
 	return (0);
 }
